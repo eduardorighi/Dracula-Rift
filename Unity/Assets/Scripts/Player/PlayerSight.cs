@@ -6,21 +6,32 @@ public class PlayerSight : MonoBehaviour {
     [HideInInspector]
     public GameObject lookingAt;
     public Shader GlowShader;
-
+    public GameObject grades;
 
     void Update()
     {
         Raycast();
         CheckClick();
 
-        if (Input.GetButtonDown("Fire2") || Input.GetKey("e"))
-        {
-            Screen.lockCursor = true;
-        }
+        //if (Input.GetButtonDown("Fire2") || Input.GetKey("e"))
+        //{
+        //    Screen.lockCursor = true;
+        //}
 
-        if (Input.GetKey("r"))
+        //if (Input.GetKey("r"))
+        //{
+        //    Screen.lockCursor = false;
+        //}
+        
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("asdas");
+        grades = GameObject.FindGameObjectWithTag("Grade");
+        if (col.gameObject.name == "DogTrap")
         {
-            Screen.lockCursor = false;
+            grades.transform.position += Vector3.up * 5 * Time.deltaTime;
         }
     }
 
