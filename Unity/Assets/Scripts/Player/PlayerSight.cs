@@ -62,6 +62,21 @@ public class PlayerSight : MonoBehaviour {
             {
                 lookingAt.GetComponent<DoorScript>().CallScript();
             }
+
+            if (lookingAt.name == "WaterDoorObject")
+            {
+                lookingAt.GetComponentInParent<WaterDoor>().CallAnimation();
+            }
+
+            if (lookingAt.name == "Coffin") // End Game
+            {
+                GameObject.Find("MapControler").gameObject.GetComponent<MapControler>().EndGame();
+            }
+
+            if (lookingAt.name == "Lock")
+            {
+                lookingAt.GetComponent<LockScript>().CheckLock(gameObject);
+            }
         }
     }
 

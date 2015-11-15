@@ -22,7 +22,6 @@ public class DoorScript : MonoBehaviour {
     }
 
     public void CallScript() {
-        //HasCrusifix = val;
         OpenDoor2();
     }
 

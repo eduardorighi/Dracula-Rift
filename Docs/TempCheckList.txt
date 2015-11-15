@@ -1,0 +1,23 @@
+Interact with itens (Hunter/Ghost)
+Glow in interactable itens (Hunter/Ghost)
+shake stones
+Glow hint itens for ghost
+Light candle (1.6)
+Show text (1.5)
+Door: Open / Check / Bash (with Crusifix)
+Water Door
+Teleport to Dracula
+Choose character
+Kill Dracula
+Water Cage
+
+Hint path with pages (Fix rotation with parent)
+Pick up and drop rock (teleport to front and apply force)
+
+Clear Scripts
+Glow Ghost (Ghost)
+Show GUI over Object
+Trap Room (5/2/7/8/11):
+    Go towards hunter (animals)
+    Play music
+    Reset to beginning

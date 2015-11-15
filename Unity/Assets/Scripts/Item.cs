@@ -26,8 +26,8 @@ public class Item : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
-        CheckClick();
+        if (!AlreadyClicked) 
+            CheckClick();
         CheckGlow();
 
     }
@@ -40,18 +40,14 @@ public class Item : MonoBehaviour {
             AlreadyClicked = true; // Stop checking for click every update
 
             if (gameObject.name == "Rock1") { // If is the LEFT Rock
-
-                gameObject.SetActive(false); // Disable Object
-                GameObject.Find("Rock2").gameObject.GetComponent<Item>().AlreadyClicked = true; // Disable Click on the other Rock
-                AddObjectToPlayerInventory(gameObject); // Add Obj to player inventory
+                
+                CheckInventoryForRock(gameObject); // Add Obj to player inventory
             
             }
 
             if (gameObject.name == "Rock2") { // If is the RIGHT Rock
-
-                gameObject.SetActive(false); // Disable Object
-                GameObject.Find("Rock1").gameObject.GetComponent<Item>().AlreadyClicked = true; // Disable Click on the other Rock
-                AddObjectToPlayerInventory(gameObject);
+                
+                CheckInventoryForRock(gameObject);
 
             }
 
@@ -78,14 +74,58 @@ public class Item : MonoBehaviour {
                 gameObject.SetActive(false); // Disable Object
                 AddObjectToPlayerInventory(gameObject);
             }
-            
+
+            if (gameObject.name == "Page4")
+            {
+                gameObject.GetComponent<PageScript>().CallScript();
+            }
+
+            //Check if has all items (End Game)
+            PlayerObj.GetComponent<PlayerInventory>().CheckInventoryForEndGame();
+
         }
     
     }
 
+    void CheckInventoryForRock(GameObject obj)
+    {
+
+        bool haveRock = false;
+
+        foreach (GameObject x in PlayerObj.GetComponent<PlayerInventory>().pickedObjects)
+        {
+            if (x.name == "Rock1" || x.name == "Rock2")
+            {
+                haveRock = true;
+                AddRockToInvetory(obj);
+                RemoveRockFromInvetory(x);
+            }
+        }
+
+        if (!haveRock)
+        {
+            AddRockToInvetory(obj);
+        }
+            
+    }
+
+    void AddRockToInvetory(GameObject obj)
+    {
+        gameObject.SetActive(false); // Disable Object
+        PlayerObj.GetComponent<PlayerInventory>().pickedObjects.Add(obj);
+    }
+
+    void RemoveRockFromInvetory(GameObject obj)
+    {
+        obj.SetActive(true); // Disable Object
+        obj.GetComponent<Item>().AlreadyClicked = false;
+        obj.GetComponent<Item>().Clicked = false;
+        PlayerObj.GetComponent<PlayerInventory>().pickedObjects.Remove(obj);
+    }
+
     void AddObjectToPlayerInventory(GameObject obj) { // Add Obj to player inventory
 
-        PlayerObj.GetComponent<PlayerInventory>().pickedObjects.Add(obj); 
+        PlayerObj.GetComponent<PlayerInventory>().pickedObjects.Add(obj);
     
     }
 
@@ -105,7 +145,7 @@ public class Item : MonoBehaviour {
         if ((BeingLookedDistance <= 3 && BeingLookedDistance > 0) && IsLooking) // "> 0" to correct a bug that is making some twitch moves as 0
         {
             Renderer.material.shader = GlowShader;
-            Debug.Log(BeingLookedDistance + " - " + IsLooking);
+            //Debug.Log(BeingLookedDistance + " - " + IsLooking);
         }
             
         if (BeingLookedDistance > 3 || IsLooking == false)
